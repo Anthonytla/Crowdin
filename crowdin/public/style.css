@@ -1,0 +1,82 @@
+.super_container {
+    width: 800px; 
+    display:flex; 
+    flex-direction: column; 
+    margin:auto;
+}
+
+.container {
+    display:flex; 
+    justify-content: flex-start;
+}
+
+.info, .languages {
+    border: 2px solid gray;
+    border-radius: 10px;
+    margin: 10px;
+}
+.projects {
+    width: 900px;
+}
+
+.pagination{
+    margin: 10px;
+}
+.pagination .btn:active {
+    color:rgb(30, 30, 32);
+}
+a {
+    color: black;
+}
+a:hover, a:focus, a:active, a:visited, a:link{
+    text-decoration: none;
+}
+
+h3, h4 {
+    padding-left: 15px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.project_container {
+    width: 800px; 
+    margin: auto;
+}
+
+.collapsible {
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+.active, .collapsible:hover {
+    background-color: #555;
+  }
+.content {
+    padding-left: 18px;
+    width: 100%;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+}
+
+.alternate div:nth-child(odd) button {background: #777}
+.alternate div:nth-child(even) button{
+    background: rgb(190, 187, 187);
+}
+
+.alternate i {
+    padding-right: 10px;
+}
+
+.arrow {
+    font-size: 24px;
+}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Public project
+      
+    
+  
+{% endblock %}
+
+{% block body %}
+  {% if project %}
+    <div class="card shadow">
+      <div class="card-body">
+        <h1>
+          {{ project.getUserId.getUsername }}
+          's project
+                                  
+                          
+                  
+        </h1>
+        <a type="button" class="mb-3 btn btn-success btn-primary" href="{{ path('traducteur') }}">
+          New project
+                                  
+                          
+                  
+        </a>
+
+        <div>
+          <button type="button" class="btn-secondary collapsible">
+            <i style="display:inline-block" class="fa fa-caret-right arrow"></i>
+            <i style="display:none" class="fa fa-caret-down arrow"></i>
+            {{ project.name }} ({{ project.lang.code }})
+          </button>
+
+          <div class="content">
+            {% for source in project.sources %}
+              <button type="button" class="btn-secondary collapsible">
+                <i style="display:inline-block" class="fa fa-caret-right arrow"></i>
+                <i style="display:none" class="fa fa-caret-down arrow"></i>
+                {{ source.source }}</button>
+                <div class="content">
+                {% if source.targets.count > 0 %}
+                {% for target in source.targets %}
+                <strong>{{ target.lang.code }}</strong>: {{ target.target }}<br>
+                {% endfor %}
+                {% endif %}
+              </div>
+            {% endfor %}
+          
+        </div>
+        <a class="btn btn-success" href="{{ path('translate', {id: project.getId}) }}">Translate</a>
+      {% else %}
+        no records found
+                           
+                            
+                        
+                
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

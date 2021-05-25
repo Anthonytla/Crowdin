@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+
+<div id="source_target" data-is-sources="{{ sources|json_encode }}">
+  {{ form_row(form.source_target) }}
+</div>
+<div id="source">
+  {{ form_row(form.source) }}
+</div>
+<div id="lang">
+  {{ form_row(form.lang) }}
+</div>
+<div id="target">
+  {{ form_row(form.target) }}
+</div>
+
+{{ form_widget(form) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+  var sources = $('#source_target').data('isSources');
+  var selected_value = $('#traduction_target_source').val();
+  $('#traduction_target_source_target').val(sources[selected_value]);
+  $('#traduction_target_source').change(function () {
+    selected_value = $('#traduction_target_source').val();
+    $('#traduction_target_source_target').val(sources[selected_value]);
+  })
+</script>

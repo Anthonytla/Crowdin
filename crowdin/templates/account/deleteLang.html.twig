@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Language{% endblock %}
+
+{% block body %}
+    <h1>Remove Language</h1>
+    {{ form_start(langform) }}
+    {{ form_row(langform.languageList) }}
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <button class="submit" class="btn">Remove</button>
+    {{ form_end(langform) }}
+{% endblock %}

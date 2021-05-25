@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Account: Edit{% endblock %}
+
+{% block body %}
+    <h1>Update Account Informations</h1>
+    {{ form_start(editform) }}
+        {{ form_row(editform.username) }}
+        {{ form_row(editform.email) }}
+        {{ form_row(editform.plainPassword, { label: 'Current Password' }) }} {% if error %}Please enter valid password<br>{% endif %}
+        {{ form_row(editform.newPassword, { label: 'New Password' }) }}
+        {{ form_row(editform.projects) }}
+        <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+        <button class="submit" class="btn">Update</button>
+    {{ form_end(editform) }}
+{% endblock %}

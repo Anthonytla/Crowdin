@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Hello AccountController!
+
+
+{% endblock %}
+
+{% block body %}
+	<div class="super_container">
+		<div class="container">
+			<div>
+				<div class="card shadow" style="width:400px">
+					<div class="card-body">
+						<h3>
+							User Informations:
+
+
+							<a href="/account/edit">
+								<i class="fa fa-cog"></i>
+							</a>
+						</h3>
+						<ul>
+							<li>
+								{{ user.getUsername() }}
+							</li>
+							<li>
+								{{ user.getEmail() }}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="card shadow">
+					<div class="card-body">
+						{% if langs.count() %}
+							<h4>
+								Spoken Languages
+
+
+								<a href="/account/lang">
+									<i class="fa fa-plus"></i>
+								</a>
+								<a href="/account/lang/delete" style="padding-left: 2px">
+									<i class="fa fa-minus"></i>
+								</a>
+							</h4>
+							<ul>
+								{% for lang in langs %}
+									<li>
+										{{ lang.getName() }}
+										:
+
+
+										{{ lang.getCode }}
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="projects card shadow">
+				<div class="card-body">
+					<h3>
+						Projects
+
+
+					</h3>
+					<div class="alternate">
+						{% for project in projects.items %}
+							{% if project.isTranslated %}
+								<div>
+									<button type="button" class="collapsible">
+										<i style="display:inline-block" class="fa fa-caret-right arrow"></i>
+										<i style="display:none" class="fa fa-caret-down arrow"></i>
+										{{ project.name }}
+									</button>
+
+									<div class="content">
+										{% for source in project.sources %}
+											{{ source.source }}
+											(
+
+
+											{{ source.targets.count }}
+											)
+
+
+											<br>
+										{% endfor %}
+
+									</div>
+								</div>
+							{% endif %}
+						{% else %}
+							<td colspan="2">
+								no records found
+
+
+							</td>
+
+						{% endfor %}
+					</div>
+					{% if projects.count > 0 %}
+					<div class="pagination">
+						{% for i in 1..projects.count %}
+							<a class="btn-sm btn btn-secondary" href="{{ path('account_index', {'page': i}) }}">
+								{{ i }}
+							</a>&nbsp
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

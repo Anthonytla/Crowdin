@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Translation{% endblock %}
+
+{% block body %}
+    <h1>Translation</h1>
+    
+    {{ include('traducteur/_form.html.twig') }}
+
+    <a href="{{ path('traducteur_project', {'id': id}) }}">back to list</a>
+{% endblock %}

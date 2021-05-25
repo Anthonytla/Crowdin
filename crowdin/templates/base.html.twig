@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+
+		{# Run `composer require symfony/webpack-encore-bundle`
+						           and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+			<link href="{{ asset('style.css') }}" rel="stylesheet">
+			<link
+			href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		{#{{ encore_entry_link_tags('app') }}#}
+		{% endblock %}
+	</head>
+	<body>
+		<nav style="background-color:grey;font-weight:600;padding:1px;">
+			<ul style="list-style-type:none;">
+				<div style="display:flex;justify-content:space-around;">
+					<li>
+						<a href="/account">Crowdin</a>
+					</li>
+					{% if app.user %}
+						<div style="display:flex">
+							<li>
+								<a style="padding:10px" href="/account">{{ app.user.getUserName() }}</a>
+							</li>
+							<li>
+								<a style="padding:10px" href="/project">My Projects</a>
+							</li>
+							<li>
+								<a style="padding:10px" href="/traducteur">Traducteur</a>
+							</li>
+
+							<li>
+								<a style="padding:10px" href="{{ path('app_logout') }}">Log out</a>
+							</li>
+						</div>
+					{% else %}
+						<div style="display:flex">
+							<li>
+								<a style="padding:10px" href="/login">Log in</a>
+							</li>
+							<li>
+								<a style="padding:10px" href="/register">Register</a>
+							</li>
+						</div>
+					{% endif %}
+				</div>
+			</ul>
+		</nav>
+		<div class="super_container"> {% block body %}{% endblock %}
+			</div>
+		</body>
+		{% block javascripts %}
+			<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+			<script>
+				var coll = document.getElementsByClassName("collapsible");
+				var i;
+
+				for (i = 0; i < coll.length; i++) {
+					coll[i].addEventListener("click", function () {
+						$(this).children().toggle();
+						this.classList.toggle("active");
+						var content = this.nextElementSibling;
+						if (content.style.display === "block") {
+							content.style.display = "none";
+						} else {
+							content.style.display = "block";
+						}
+					});
+				}
+			</script>
+			<script>
+				$(".pagination .btn").click(function () {
+				$(this).toggleClass('active');
+				})
+			</script>
+		{% endblock %}
+	</html>
+</head></html>
