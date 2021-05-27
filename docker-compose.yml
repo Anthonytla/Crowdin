@@ -3,12 +3,19 @@ version: "3.9"
 services:
     db:
         image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: crowdin
+    
+        #command: mysql -u root -p root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'"
         ports: 
-            - 3307:3306
+            - 3306:3306
     crowdin:
         build: .
         depends_on:
             - db
         ports:
             - 8000:8000
-        command: composer upgrade
+        command: bash -c "composer upgrade && cd public && php ../bin/console doctrine:migrations:migrate && php -S 0:8000"
