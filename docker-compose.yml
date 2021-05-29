@@ -8,8 +8,6 @@ services:
         environment:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: crowdin
-    
-        #command: mysql -u root -p root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'"
         ports: 
             - 3306:3306
     crowdin:
