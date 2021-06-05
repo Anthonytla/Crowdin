@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,16 +29,13 @@ class AccountController extends AbstractController
     /**
      * @Route("/", name="account_index", methods={"GET"})
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        $page = $request->query->has('page') ? $request->get('page') : 1;
         $user = $this->getUser();
-        $projects = $this->getDoctrine()->getRepository(Project::class)->findByIsTranslated($user, $page);
         //dd($user->getLangs());
         return $this->render('account/index.html.twig', [
             'controller_name' => 'AccountController',
             'user' => $user,
-            'projects' => $projects,
             'langs' => $user->getLangs(),
         ]);
     }
@@ -52,6 +48,7 @@ class AccountController extends AbstractController
         $user = $this->getUser();
         $form = $this->createForm(AccountFormType::class, $user);
         $form->handleRequest($request);
+        $error = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($passwordEncoder->isPasswordValid($user, $form->get('plainPassword')->getData())) {
@@ -66,16 +63,12 @@ class AccountController extends AbstractController
                 $this->accountservice->editAccount();
                 return $this->redirectToRoute('account_index');
             }
-            return $this->render('account/edit.html.twig', [
-                'editform' => $form->createView(),
-                'user' => $user,
-                'error' => true,
-            ]);
+            $error = true;
         }
         return $this->render('account/edit.html.twig', [
             'editform' => $form->createView(),
             'user' => $user,
-            'error' => false,
+            'error' => $error,
         ]);
     }
     /**

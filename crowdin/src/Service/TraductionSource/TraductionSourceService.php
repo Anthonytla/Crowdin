@@ -29,10 +29,20 @@ class TraductionSourceService
 
     public function deleteTraductionSource($traductionSource)
     {
-        $count = $traductionSource->getProject()->getIsTranslated();
-        $count = $count - $traductionSource->getTargets()->count();
-        $traductionSource->getProject()->setIsTranslated($count);
         $this->em->remove($traductionSource);
         $this->em->flush();
     }
+
+    public function blockSource($source)
+    {
+        $source->setBlocked(1);
+        $this->em->flush();
+    }
+
+    public function unblockSource($source)
+    {
+        $source->setBlocked(0);
+        $this->em->flush();
+    }
+
 }

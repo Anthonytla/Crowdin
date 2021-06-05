@@ -58,7 +58,8 @@ class TraducteurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->traductionTargetService->createTraductionTarget($target);
+            if ($target->getSource()->getBlocked() == 0)
+                $this->traductionTargetService->createTraductionTarget($target);
 
             return $this->redirectToRoute('traducteur_project', ['id' => $project->getId()]);
         }
@@ -66,7 +67,8 @@ class TraducteurController extends AbstractController
         //$sources = $this->getDoctrine()->getManager()->getRepository(TraductionSource::class)->findBy(['project' => $project]);
         return $this->render('traducteur/new.html.twig', [
             'id' => $project->getId(),
-            'sources' => $sources,
+            'sources' => $sources[0],
+            'blocked' => $sources[1],
             'form' => $form->createView(),
         ]);
     }
@@ -89,7 +91,7 @@ class TraducteurController extends AbstractController
 
         return $this->render('traducteur/edit.html.twig', [
             'target' => $traductionTarget,
-            'sources' => $sources,
+            'sources' => $sources[0],
             'form' => $form->createView(),
         ]);
     }

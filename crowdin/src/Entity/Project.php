@@ -42,14 +42,14 @@ class Project
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      */
-    private $isTranslated = 0;
+    private $isTranslated = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted = false;
+    private $available;
 
     public function __construct()
     {
@@ -127,26 +127,26 @@ class Project
         return $this;
     }
 
-    public function getIsTranslated(): ?int
+    public function getIsTranslated(): ?bool
     {
         return $this->isTranslated;
     }
 
-    public function setIsTranslated(int $isTranslated): self
+    public function setIsTranslated(bool $isTranslated): self
     {
         $this->isTranslated = $isTranslated;
 
         return $this;
     }
 
-    public function getIsDeleted(): ?bool
+    public function getAvailable(): ?bool
     {
-        return $this->isDeleted;
+        return $this->available;
     }
 
-    public function setIsDeleted(bool $isDeleted): self
+    public function setAvailable(bool $available): self
     {
-        $this->isDeleted = $isDeleted;
+        $this->available = $available;
 
         return $this;
     }

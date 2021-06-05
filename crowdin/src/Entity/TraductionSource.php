@@ -40,6 +40,11 @@ class TraductionSource
      */
     private $source;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $blocked;
+
     public function __construct()
     {
         $this->targets = new ArrayCollection();
@@ -113,6 +118,18 @@ class TraductionSource
     public function setSource(string $source): self
     {
         $this->source = $source;
+
+        return $this;
+    }
+
+    public function getBlocked(): ?bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): self
+    {
+        $this->blocked = $blocked;
 
         return $this;
     }

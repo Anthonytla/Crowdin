@@ -39,5 +39,5 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/project, roles: ROLE_USER }
-        - { path: ^/traducteur, roles: ROLE_TRANSLATOR }
+        - { path: ^/traducteur, roles: ROLE_USER }
 

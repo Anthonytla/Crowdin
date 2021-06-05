@@ -83,4 +83,28 @@ class TraductionSourceController extends AbstractController
 
         return $this->redirectToRoute('project_index');
     }
+
+    /**
+     * @Route("project/traductions/{id}/block", name = "source_block", methods={"POST"})
+     */
+    public function block(Request $request, TraductionSource $source): Response
+    {
+        if ($this->isCsrfTokenValid('block' . $source->getId(), $request->get('_token'))) {
+            $this->traductionSourceService->blockSource($source);
+        }
+
+        return $this->redirectToRoute('project_index');
+    }
+
+    /**
+     * @Route("project/traductions/{id}/unblock", name = "source_unblock", methods={"POST"})
+     */
+    public function unblock(Request $request, TraductionSource $source): Response
+    {
+        if ($this->isCsrfTokenValid('unblock' . $source->getId(), $request->get('_token'))) {
+            $this->traductionSourceService->unblockSource($source);
+        }
+
+        return $this->redirectToRoute('project_index');
+    }
 }

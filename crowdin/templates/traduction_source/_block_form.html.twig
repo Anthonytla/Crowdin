@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('source_block', {'id' : source.id}) }}" onsubmit="return confirm('Your source will not be available to transalion until you unblock it, are you sure?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('block' ~ source.id) }}">
+    <button class="btn">Block</button>
+</form>

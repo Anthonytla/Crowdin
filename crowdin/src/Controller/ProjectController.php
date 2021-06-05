@@ -27,11 +27,10 @@ class ProjectController extends AbstractController
     /**
      * @Route("/", name="project_index", methods={"GET"})
      */
-    public function index(Request $request, ProjectRepository $projectRepository): Response
+    public function index(ProjectRepository $projectRepository): Response
     {
-        $page = $request->query->has('page') ? $request->get('page') : 1;
         return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findByUserWithPagination($this->getUser(), $page),
+            'projects' => $projectRepository->findBy(['userId' => $this->getUser()]),
         ]);
     }
 
@@ -110,4 +109,5 @@ class ProjectController extends AbstractController
 
         return $this->redirectToRoute('project_index');
     }
+
 }

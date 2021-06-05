@@ -3,6 +3,7 @@
 <div id="source_target" data-is-sources="{{ sources|json_encode }}">
   {{ form_row(form.source_target) }}
 </div>
+<div id="source_blocked" data-is-sources="{{ blocked|json_encode }}"></div>
 <div id="source">
   {{ form_row(form.source) }}
 </div>
@@ -13,16 +14,40 @@
   {{ form_row(form.target) }}
 </div>
 
+<div id="block_message" hidden=""><p>Project owner has blocked this source from being translated</p></div>
+
 {{ form_widget(form) }}
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
   var sources = $('#source_target').data('isSources');
+  var block_data = $('#source_blocked').data('isSources');
   var selected_value = $('#traduction_target_source').val();
   $('#traduction_target_source_target').val(sources[selected_value]);
+  if (block_data[selected_value] == true){
+    $('#traduction_target_target').attr('disabled', '');
+    $('#block_message').removeAttr('hidden');
+  }
+  else{
+    $('#traduction_target_target').removeAttr('disabled');
+    $('#block_message').attr('hidden', '');
+  }
+  $('#traduction_target_source_target').on('input', function(){
+    $('#traduction_target_source_target').val(sources[selected_value]);
+  });
   $('#traduction_target_source').change(function () {
     selected_value = $('#traduction_target_source').val();
     $('#traduction_target_source_target').val(sources[selected_value]);
-  })
+    if (block_data[selected_value] == true){
+      $('#traduction_target_target').attr('disabled', '');
+      $('#block_message').removeAttr('hidden');
+    }
+    else {
+      $('#traduction_target_target').removeAttr('disabled');
+      $('#block_message').attr('hidden', '');
+    }
+  });
 </script>

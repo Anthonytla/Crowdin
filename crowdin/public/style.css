@@ -19,17 +19,8 @@
     width: 900px;
 }
 
-.pagination{
-    margin: 10px;
-}
-.pagination .btn:active {
-    color:rgb(30, 30, 32);
-}
 a {
     color: black;
-}
-a:hover, a:focus, a:active, a:visited, a:link{
-    text-decoration: none;
 }
 
 h3, h4 {

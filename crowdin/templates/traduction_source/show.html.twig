@@ -11,6 +11,7 @@
         <th>Source</th>
         <th>Origin target</th>
         <th>Traductions</th>
+        <th>Open to translation</th>
       </tr>
       <tr>
         <td>{{ source.source }}</td>
@@ -20,12 +21,25 @@
             <strong>{{ target.lang.getCode }}</strong>: {{ target.target }}<br>
           {% endfor %}
         </td>
+        <td>
+          {% if source.blocked %}
+            No
+          {% else %}
+            Yes
+          {% endif %}
+        </td>
       </tr>
     </tbody>
   </table>
 
   <a href="{{ path('project_index') }}">back to list</a>
   <a href="{{ path('traduction_source_edit', {'id': source.getId}) }}">edit</a>
+
+  {% if source.blocked %}
+        {{ include('traduction_source/_unblock_form.html.twig') }}
+    {% else %}
+        {{ include('traduction_source/_block_form.html.twig') }}
+  {% endif %}
 
   {{ include('traduction_source/_delete_form.html.twig') }}
 {% endblock %}

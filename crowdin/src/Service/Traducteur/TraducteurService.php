@@ -51,9 +51,13 @@ class TraducteurService
     {
         $traductionSources = $this->em->getRepository(TraductionSource::class)->findBy(['project' => $project]);
         $data = [];
-        foreach ($traductionSources as $traduction)
+        $block_data = [];
+        foreach ($traductionSources as $traduction){
             $data[$traduction->getId()] = $traduction->getTarget();
-        return $data;
+            $block_data[$traduction->getId()] = $traduction->getBlocked();
+        }
+        $tab = [0 => $data, 1 => $block_data];
+        return $tab;
     }
 
 }

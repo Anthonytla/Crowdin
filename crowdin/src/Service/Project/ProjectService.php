@@ -47,7 +47,8 @@ class ProjectService
 
     public function deleteProject($project)
     {
-        $this->em->remove($project);
+        //$this->em->remove($project);
+        $project->setAvailable(0);
         $this->em->flush();
     }
 }

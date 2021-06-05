@@ -14,9 +14,7 @@ class TraductionTargetService
 
     public function createTraductionTarget($traduction)
     {
-        $count = $traduction->getSource()->getProject()->getIsTranslated();
-        dump($count);
-        $traduction->getSource()->getProject()->setIsTranslated($count + 1);
+        $traduction->getSource()->getProject()->setIsTranslated(true);
         $this->em->persist($traduction);
         $this->em->flush();
     }
