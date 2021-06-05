@@ -14,6 +14,7 @@ services:
         build: .
         depends_on:
             - db
+        command: bash -c 'php bin/console doctrine:database:create && cd public && php -S 0:8000'
         ports:
             - 8000:8000
         command: bash -c "composer upgrade && cd public && php ../bin/console doctrine:migrations:migrate && php -S 0:8000"
