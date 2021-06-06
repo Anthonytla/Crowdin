@@ -1,32 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Project index{% endblock %}
+{% block title %}Project index
+{% endblock %}
 
 {% block body %}
-<div class="project_container">
-  <h1>{{ app.user.username }}'s projects</h1>  
-  <a href="{{ path('project_new') }}"><i class="fa fa-plus"></i></a>
+	<div class="project_container">
+		<h1>{{ app.user.username }}'s projects</h1>
+		<a href="{{ path('project_new') }}">
+			<i class="fa fa-plus"></i>
+		</a>
 
-  <div class="alternate">
-    {% for project in projects %}
-    <div>
-        <button type="button" class="collapsible"><i style="display:inline-block" class="fa fa-caret-right arrow"></i><i style="display:none" class="fa fa-caret-down arrow"></i>{{ project.name }}
-        </button>
-        
-        <div class="content">
-          {% for source in project.sources %}
-            <a href="{{ path('traductions_show', {'id': source.id}) }}">{{ source.source }}</a><br>
-          {% endfor %}
-          <a href="{{ path('project_show', {'id': project.id}) }}" class="btn btn-danger btn-primary">Show</a>
-          <a class="btn btn-success btn-primary" href="{{ path('project_edit', {'id': project.id}) }}">Edit</a>
-        </div>
-    </div>
-    {% else %}
-        <td colspan="2">no records found</td>
-  
-    {% endfor %}
-  </div>
+		<div class="alternate">
+			{% for project in projects.items %}
+				<div>
+					<button type="button" class="collapsible">
+						<i style="display:inline-block" class="fa fa-caret-right arrow"></i>
+						<i style="display:none" class="fa fa-caret-down arrow"></i>
+						{{ project.name }} ({{ project.lang.code }})
+					</button>
 
-  <a class="btn btn-success" href="{{ path('traduction_source_new') }}">New source</a>
-</div>
+					<div class="content">
+						{% for source in project.sources %}
+							<a href="{{ path('traductions_show', {'id': source.id}) }}">{{ source.source }}</a><br>
+						{% endfor %}
+						<a href="{{ path('project_show', {'id': project.id}) }}" class="btn btn-danger btn-primary">Show</a>
+						<a class="btn btn-success btn-primary" href="{{ path('project_edit', {'id': project.id}) }}">Edit</a>
+					</div>
+				</div>
+			{% else %}
+				<td colspan="2">no records found</td>
+
+			{% endfor %}
+			{% if projects.count > 0 %}
+			<div class="pagination">
+				{% for i in 1..projects.count %}
+					<a class="btn-sm btn btn-secondary" href="{{ path('project_index', {'page': i}) }}">
+						{{ i }}
+					</a>&nbsp
+				{% endfor %}
+			</div>
+			{% endif %}
+		</div>
+
+		<a class="btn btn-success" href="{{ path('traduction_source_new') }}">New source</a>
+	</div>
 {% endblock %}

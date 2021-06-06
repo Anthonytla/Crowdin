@@ -7,7 +7,7 @@ RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/bin/composer
-RUN apt -y install php php-xml php-mbstring git zip unzip php-zip curl php-mysql
+RUN apt -y install php php-xml php-mbstring git zip unzip php-zip php-curl php-mysql
 
 COPY . crowdin/
 WORKDIR crowdin/crowdin/

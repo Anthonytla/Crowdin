@@ -11,6 +11,7 @@ use App\Repository\ProjectRepository;
 use App\Repository\LangRepository;
 use App\Service\Project\ProjectService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,10 +28,11 @@ class ProjectController extends AbstractController
     /**
      * @Route("/", name="project_index", methods={"GET"})
      */
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(Request $request, ProjectRepository $projectRepository): Response
     {
+        $page = $request->query->has('page') ? $request->get('page') : 1;
         return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findBy(['userId' => $this->getUser()]),
+            'projects' => $projectRepository->findByUserWithPagination($this->getUser(), $page),
         ]);
     }
 
@@ -83,7 +85,10 @@ class ProjectController extends AbstractController
      */
     public function edit(Request $request, Project $project): Response
     {
-        $form = $this->createForm(ProjectType::class, $project);
+        $form = $this->createFormBuilder($project)
+                ->add('isDeleted')
+                ->add('name')
+                ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

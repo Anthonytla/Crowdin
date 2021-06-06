@@ -43,7 +43,7 @@ class TraductionSource
     /**
      * @ORM\Column(type="boolean")
      */
-    private $blocked;
+    private $blocked = false;
 
     public function __construct()
     {

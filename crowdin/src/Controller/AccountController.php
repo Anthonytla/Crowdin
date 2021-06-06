@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,13 +30,15 @@ class AccountController extends AbstractController
     /**
      * @Route("/", name="account_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $page = $request->query->has('page') ? $request->get('page') : 1;
         $user = $this->getUser();
-        //dd($user->getLangs());
+        $projects = $this->getDoctrine()->getRepository(Project::class)->findByIsTranslated($user, $page);
         return $this->render('account/index.html.twig', [
             'controller_name' => 'AccountController',
             'user' => $user,
+            'projects' => $projects,
             'langs' => $user->getLangs(),
         ]);
     }

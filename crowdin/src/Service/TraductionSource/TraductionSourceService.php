@@ -29,6 +29,9 @@ class TraductionSourceService
 
     public function deleteTraductionSource($traductionSource)
     {
+        $count = $traductionSource->getProject()->getIsTranslated();
+        $count = $count - $traductionSource->getTargets()->count();
+        $traductionSource->getProject()->setIsTranslated($count);
         $this->em->remove($traductionSource);
         $this->em->flush();
     }

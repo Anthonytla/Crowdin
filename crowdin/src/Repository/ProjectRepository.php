@@ -14,55 +14,73 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProjectRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Project::class);
     }
 
-    public function findAll()
+    /**
+     * @return Project[] Returns an array of Project objects
+     */
+
+    public function findByUserWithPagination($user, $page)
     {
-        return $this->findBy(['available' => 1]);
-    }
+        $limit = 5;
 
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
-    {
-        $persister = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName);
-
-        if (!array_key_exists('available', $criteria)) {
-            $criteria['available'] = 1;
-        }
-
-        return $persister->loadAll($criteria, $orderBy, $limit, $offset);
-    }
-
-    public function findAll_Adm()
-    {
-        return $this->findBy_Adm([]);
-    }
-
-    public function findBy_Adm(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
-    {
-        $persister = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName);
-
-        return $persister->loadAll($criteria, $orderBy, $limit, $offset);
-    }
-
-    // /**
-    //  * @return Project[] Returns an array of Project objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
+        $items = $this->createQueryBuilder('p')
+            ->andWhere('p.userId=:val')
+            ->andWhere('p.isDeleted = 0')
+            ->setParameter('val', $user)
             ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults($limit)
+            ->setFirstResult(($page - 1) * $limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+        $count = $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.userId=:val')
+            ->andWhere('p.isDeleted=0')
+            ->setParameter('val', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return ['items' => $items, 'count' => ceil($count / $limit)];
     }
-    */
+
+    public function findByIsTranslated($user, $page)
+    {
+        $limit = 3;
+
+        $items = $this->createQueryBuilder('p')
+            ->andWhere('p.userId=:val')
+            ->andWhere('p.isTranslated > 0')
+            ->andWhere('p.isDeleted = 0')
+            ->setParameter('val', $user)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults($limit)
+            ->setFirstResult(($page - 1) * $limit)
+            ->getQuery()
+            ->getResult();
+        $count = $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.userId=:val')
+            ->andWhere('p.isDeleted=0')
+            ->andWhere('p.isTranslated > 0')
+            ->setParameter('val', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return ['items' => $items, 'count' => ceil($count / $limit)];
+    }
+
+    public function findAll() {
+        return $this->createQueryBuilder('p')
+        ->select('p')
+        ->andWhere('p.isDeleted = 0')
+        ->getQuery()
+        ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Project
